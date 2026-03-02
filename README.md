@@ -53,3 +53,10 @@ config/
 - `npm run build` — compila para `dist/`
 - `npm start` — roda build
 
+## Próximos passos (amanhã)
+- [ ] Completar OAuth: trocar `code` por tokens, persistir `access/refresh` (ex.: SQLite/Prisma ou JSON) e implementar refresh automático.
+- [ ] Calcular disponibilidade real: gerar slots a partir de `opening_hours` + timezone e remover conflitos do Google Calendar.
+- [ ] Validar payloads: contratos `zod` para `/webhook` (book/availability) e respostas.
+- [ ] Multi‑clínica: permitir `calendarId` por clínica/tenant e endpoint de configuração simples.
+- [ ] Canal inicial: definir adapter (ex.: WhatsApp/Twilio) e interface de mensagens.
+- [ ] Deploy: Dockerfile, variáveis `.env`, e guia rápido de publicação.

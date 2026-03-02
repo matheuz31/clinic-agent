@@ -21,6 +21,12 @@ Assistente conversacional para clínicas (odontologia por padrão), com integra�
 3. Instale deps: `npm install`
 4. Dev: `npm run dev`
 
+### OAuth Google (multi‑clínica)
+- Iniciar consent: `GET /oauth/google/auth?tenantId={TENANT}&calendarId={CALENDAR_ID?}`
+- Callback salva tokens: `GET /oauth/google/callback?code=...`
+- Definir/atualizar agenda por tenant: `POST /tenants/{TENANT}/config {"calendarId":"..."}`
+- Checar status (dev): `GET /tenants/{TENANT}/tokens`
+
 ## Google Calendar
 - Desenvolvimento/local: OAuth (User consent) usando `GOOGLE_REDIRECT_URI` apontando para `/oauth/google/callback`.
 - Produção multi‑clínica: considerar Service Account + delegação (se Google Workspace) ou fluxo OAuth por clínica (multi‑tenant).
@@ -37,21 +43,28 @@ src/
       CalendarProvider.ts
       google/GoogleCalendarProvider.ts
   channels/webhook/WebhookController.ts
+  channels/types.ts
 config/
   dentistry.yml
   veterinary.yml
 ```
 
 ## Roadmap curto
-- [ ] Fluxo OAuth completo + refresh token store
-- [ ] Regras de horário, bloqueios, confirmações
-- [ ] Conectores de canal (WhatsApp, Web, Email)
+- [x] Fluxo OAuth inicial + persistência JSON
+- [x] Disponibilidade por horário de funcionamento + conflitos do Google Calendar
+- [x] Validação Zod para `/webhook`
+- [x] Multi‑clínica: calendarId por tenant
+- [ ] Conector de canal (ex.: WhatsApp/Twilio)
 - [ ] Testes e CI
 
 ## Scripts
 - `npm run dev` — dev com ts-node-dev
 - `npm run build` — compila para `dist/`
 - `npm start` — roda build
+
+## Docker
+- Build: `docker build -t clinic-agent .`
+- Run: `docker run -p 3000:3000 --env-file .env clinic-agent`
 
 ## Próximos passos (amanhã)
 - [ ] Completar OAuth: trocar `code` por tokens, persistir `access/refresh` (ex.: SQLite/Prisma ou JSON) e implementar refresh automático.

@@ -5,11 +5,8 @@ export class GoogleCalendarProvider implements CalendarProvider {
   constructor(private defaultCalendarId?: string, private oauthClientFactory?: () => any) {}
 
   private getClient(accessToken?: string, refreshToken?: string) {
-    // If a factory was provided, use it (allows DI with configured OAuth2 client)
-    if (this.oauthClientFactory) {
-      return this.oauthClientFactory();
-    }
-    const oauth2Client = new google.auth.OAuth2();
+    // If a factory was provided, use it and still attach credentials if present
+    const oauth2Client = this.oauthClientFactory ? this.oauthClientFactory() : new google.auth.OAuth2();
     if (accessToken || refreshToken) {
       oauth2Client.setCredentials({ access_token: accessToken, refresh_token: refreshToken });
     }
@@ -61,4 +58,3 @@ export class GoogleCalendarProvider implements CalendarProvider {
     };
   }
 }
-

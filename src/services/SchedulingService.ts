@@ -14,7 +14,7 @@ export interface BookRequest {
 export class SchedulingService {
   constructor(private calendar: CalendarProvider, private cfg: AppConfig, private tokens: TokenStore) {}
 
-  private weekdayLabel(dt: DateTime): keyof AppConfig['domain']['opening_hours'] {
+  private weekdayLabel(dt: any): keyof AppConfig['domain']['opening_hours'] {
     return dt.toFormat('ccc') as any; // Mon, Tue, ... locale English
   }
 

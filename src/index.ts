@@ -42,11 +42,11 @@ async function main() {
     const oauth2 = oauthFactory();
     const { tokens: tk } = await oauth2.getToken(code);
     tokens.set(tenantId, {
-      access_token: tk.access_token,
-      refresh_token: tk.refresh_token,
-      scope: tk.scope,
-      token_type: tk.token_type,
-      expiry_date: tk.expiry_date,
+      access_token: tk.access_token ?? undefined,
+      refresh_token: tk.refresh_token ?? undefined,
+      scope: tk.scope ?? undefined,
+      token_type: tk.token_type ?? undefined,
+      expiry_date: tk.expiry_date ?? undefined,
       calendarId: calendarId || undefined,
     });
     return reply.send({ ok: true, tenantId, hasRefreshToken: Boolean(tk.refresh_token) });
